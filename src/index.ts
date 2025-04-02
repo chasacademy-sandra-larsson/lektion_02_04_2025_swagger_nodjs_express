@@ -5,36 +5,38 @@ import postRoutes from "./routes/postRoutes"
 import authRoutes from "./routes/authRoutes";
 import dotenv from "dotenv";
 import { prisma } from "./config/db"
-import swaggerJSDoc from "swagger-jsdoc";
-import swaggerUi from "swagger-ui-express";
+//import swaggerJSDoc from "swagger-jsdoc";
 
+import swaggerUi from "swagger-ui-express";
+import YAML from "yamljs";
 dotenv.config();
 console.log(process.env.DATABASE_URL)
 
 const app = express();
 
-const options = {
-  definition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'Instagram clone API',
-      version: '1.0.0',
-      description: 'A social media platform for sharing photos and videos',
-    },
-    components: {
-      securitySchemes: {
-        bearerAuth: {  // This name can be any string, and will be used in the security array below
-          type: 'http',
-          scheme: 'bearer',
-          bearerFormat: 'JWT',  // Optional, only needed if tokens are JWTs
-        }
-      }
-    },
-  },
-  apis: ['./src/controllers/*.ts'], // Path to the API docs
-};
+// const options = {
+//   definition: {
+//     openapi: '3.0.0',
+//     info: {
+//       title: 'Instagram clone API',
+//       version: '1.0.0',
+//       description: 'A social media platform for sharing photos and videos',
+//     },
+//     components: {
+//       securitySchemes: {
+//         bearerAuth: {  // This name can be any string, and will be used in the security array below
+//           type: 'http',
+//           scheme: 'bearer',
+//           bearerFormat: 'JWT',  // Optional, only needed if tokens are JWTs
+//         }
+//       }
+//     },
+//   },
+//   apis: ['./src/controllers/*.ts'], // Path to the API docs
+// };
 
-const swaggerSpec = swaggerJSDoc(options);
+//const swaggerSpec = swaggerJSDoc(options);
+const swaggerSpec = YAML.load('./src/docs/api-specs.yaml');
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
