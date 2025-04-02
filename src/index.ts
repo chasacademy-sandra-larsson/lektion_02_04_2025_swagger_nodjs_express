@@ -21,8 +21,17 @@ const options = {
       version: '1.0.0',
       description: 'A social media platform for sharing photos and videos',
     },
+    components: {
+      securitySchemes: {
+        bearerAuth: {  // This name can be any string, and will be used in the security array below
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',  // Optional, only needed if tokens are JWTs
+        }
+      }
+    },
   },
-  apis: ['./app.js'], // files containing annotations as above
+  apis: ['./src/controllers/*.ts'], // Path to the API docs
 };
 
 const swaggerSpec = swaggerJSDoc(options);
@@ -38,20 +47,19 @@ app.use("/users", userRoutes);
 app.use("/posts", postRoutes)
 // TODO: app.use("/comments", commentRoutes )
 
-
-// Below your regular routes
-/**
- * @openapi
- * /:
- *   get:
- *     description: Home page
- *     responses:
- *       200:
- *         description: Returns a mysterious string.
- */
-app.get('/hello', (req, res) => {
-  res.send('Hello World!');
-});
+// // Below your regular routes
+// /**
+//  * @openapi
+//  * /:
+//  *   get:
+//  *     description: Home page
+//  *     responses:
+//  *       200:
+//  *         description: Returns a mysterious string.
+//  */
+// app.get('/', (req, res) => {
+//   res.send('Hello World!');
+// });
 
 const main = async () => {
   const PORT = process.env.PORT || 3000

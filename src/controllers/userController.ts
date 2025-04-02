@@ -2,6 +2,41 @@ import { Request, Response } from "express"
 import { prisma } from "../config/db"
 
 
+/**
+ * @openapi
+ * /users:
+ *   post:
+ *     description: Create a new user
+ *     responses:       
+ *       201:
+ *         description: User created successfully
+ *       400:
+ *         description: User already exists
+ *       500:                   
+ *         description: Internal server error
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 description: The email of the user
+ *               password:
+ *                 type: string
+ *                 description: The password of the user    
+ *             required:        
+ *               - email
+ *               - password 
+ *             example: 
+ *               email: "test@test.com"
+ *               password: "password"  
+ *     tags:
+ *          - users
+ * 
+ */
 
 // CREATE
 export const createUser = async (req: Request, res: Response) => {
@@ -42,8 +77,30 @@ export const createUser = async (req: Request, res: Response) => {
 
 };
 
-
-
+/**
+ * @openapi 
+ * /users/{id}:
+ *   get:
+ *     description: Get a user by ID
+ *     responses:
+ *       200:
+ *         description: User fetched successfully   
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Internal server error
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: The ID of the user
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "1"
+ *     tags:
+ *       - users
+ *     
+ */
 // READ ONE
 export const getUser = async (req: Request, res: Response) => {
 
@@ -69,7 +126,50 @@ export const getUser = async (req: Request, res: Response) => {
 
 }
 
-
+/**
+ * @openapi
+ * /users:
+ *   get:
+ *     description: Get all users
+ *     responses:
+ *       200:           
+ *         description: Users fetched successfully
+ *       404:
+ *         description: Users not found
+ *       500:
+ *         description: Internal server error
+ *     parameters:  
+ *       - name: limit
+ *         in: query
+ *         description: The number of users to fetch
+ *         required: false
+ *         schema:
+ *           type: number
+ *           example: 10
+ *       - name: page   
+ *         in: query
+ *         description: The page number
+ *         required: false
+ *         schema:
+ *           type: number
+ *           example: 0
+ *       - name: sortOrder
+ *         in: query
+ *         description: The order of the users
+ *         required: false
+ *         schema:
+ *           type: string
+ *           example: "asc"
+ *       - name: sortBy (optional)
+ *         in: query
+ *         description: The field to sort by
+ *         required: false
+ *         schema:
+ *           type: string
+ *           example: "email"
+ *     tags:
+ *       - users
+ */
 // READ MANY
 export const getUsers = async (req: Request, res: Response) => {
 
@@ -101,7 +201,50 @@ export const getUsers = async (req: Request, res: Response) => {
 
 };
 
-
+/**
+ * @openapi
+ * /users/{id}:
+ *   put:
+ *     description: Update a user by ID
+ *     responses:
+ *       200:
+ *         description: User updated successfully
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Internal server error
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email: 
+ *                 type: string
+ *                 description: The email of the user
+ *               password:
+ *                 type: string
+ *                 description: The password of the user
+ *             required:
+ *               - email
+ *             example:
+ *               email: "test@test.com"
+ *               password: "password"
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: The ID of the user
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "1"
+ *     tags:
+ *       - users
+ * 
+ */
 
 // UPDATE 
 export const updateUser = async (req: Request, res: Response) => {
@@ -135,6 +278,30 @@ export const updateUser = async (req: Request, res: Response) => {
 
 
 };
+
+/**
+ * @openapi
+ * /users/{id}:
+ *   delete:
+ *     description: Delete a user by ID
+ *     responses:
+ *       200:
+ *         description: User deleted successfully
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Internal server error   
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: The ID of the user
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "1"
+ *     tags:
+ *       - users
+ */
 
 
 

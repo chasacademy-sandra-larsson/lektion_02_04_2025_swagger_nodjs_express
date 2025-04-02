@@ -11,9 +11,9 @@ router.post("/",
     validateUser,
     createUser); // Kolla bodys parametrar om giltig e-post och password, samt sanitera input exempelvis genom att använda trim()
 router.get("/", getUsers); // Man kan också validera query-parametrar här
-router.get("/:id", authMiddleware, getUser);
-router.put("/:id", authMiddleware, validateUser, updateUser); // Samma sak på put
-router.delete("/:id", authMiddleware, deleteUser);
+router.get("/:id", getUser);
+router.put("/:id", authMiddleware,validateUser, updateUser); // Samma sak på put
+router.delete("/:id", deleteUser);
 
 
 
